@@ -1,7 +1,7 @@
 open! Base
 
 (* Write a function that adds 1 to an int. (This function may seem familiar!) *)
-let add1 x = failwith "For you to implement" 
+let add1 x = failwith "For you to implement"
 
 (* Now write a function that squares its argument. *)
 let square x = failwith "For you to implement"
@@ -14,7 +14,7 @@ let square x = failwith "For you to implement"
    argument, and apply that function two times to its second argument.
 
    Hint: Remember that you can use parenthese or let bindings to order function
-   calls.  *)
+   calls. *)
 let twice f x = failwith "For you to implement"
 
 (* Take a second to look at the function signature for [twice] in the mli
@@ -27,23 +27,14 @@ let twice f x = failwith "For you to implement"
 let add2 = failwith "For you to implement"
 let raise_to_the_fourth = failwith "For you to implement"
 
-let%test "Testing add1..." =
-  Int.(=) 5 (add1 4)
+(* Tests *)
 
-let%test "Testing square..." =
-  Int.(=) 16 (square 4)
-
-let%test "Testing square..." =
-  Int.(=) 16 (square (-4))
-
-let%test "Testing add1..." =
-  Int.(=) 5 (twice add1 3)
-
-let%test "Testing add2..." =
-  Int.(=) 1337 (add2 1335)
+let%test "Testing add1..." = Int.( = ) 5 (add1 4)
+let%test "Testing square..." = Int.( = ) 16 (square 4)
+let%test "Testing square..." = Int.( = ) 16 (square (-4))
+let%test "Testing add1..." = Int.( = ) 5 (twice add1 3)
+let%test "Testing add2..." = Int.( = ) 1337 (add2 1335)
+let%test "Testing raise_to_the_fourth..." = Int.( = ) 1 (raise_to_the_fourth 1)
 
 let%test "Testing raise_to_the_fourth..." =
-  Int.(=) 1 (raise_to_the_fourth 1)
-
-let%test "Testing raise_to_the_fourth..." =
-  Int.(=) 10000 (raise_to_the_fourth 10)
+  Int.( = ) 10000 (raise_to_the_fourth 10)
