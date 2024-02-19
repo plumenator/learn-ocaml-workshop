@@ -21,7 +21,7 @@ open! Base
    above would be written like so:
 
    // C, C++, or Java type signature
-   int four; 
+   int four;
 *)
 let four = 4
 
@@ -68,8 +68,7 @@ let float_four = 4.
 
    In OCaml there's no explicit return statement: functions just return the
    value of the last statement in that function.
-
-   Try implementing [int_average].  *)
+   Try implementing [int_average]. *)
 let int_average x y = failwith "For you to implement"
 
 (* Now try implementing [float_average]. Remember that you can check the mli for
@@ -94,7 +93,7 @@ let last_name : string = "Flintstone"
 (* String concatenation is done with the [( ^ )] operator.  *)
 let full_name = first_name ^ " " ^ last_name
 
-(** ========== Booleans ========== **)                
+(** ========== Booleans ========== **)
 let a_boolean_false : bool = false
 
 (* You can use
@@ -111,7 +110,8 @@ let () = assert (true || a_boolean_false)
    (I/O stands for input/output. Examples: printing to screen, reading a file,
    sending and receiving network requests.) *)
 
-let () = Stdio.print_endline "Hi, my name is Fred Flintstone and I am 5 years old"
+let () =
+  Stdio.print_endline "Hi, my name is Fred Flintstone and I am 5 years old"
 
 (* To combine several unit operations together, the [;] operator is used. *)
 let () =
@@ -129,13 +129,12 @@ let () =
 
    For this reason, idiomatic OCaml code has [let () = ...] as its entrypoint,
    similar to the [main] function in languages like C, C++ and Java (although in
-   those languages it is required).  *)
+   those languages it is required). *)
 
 (* An aside on printing: Like many other programming languages, you can use
    formatted strings for printing! We also use the '\n' character for printing
    newlines. *)
-let () =
-  Stdio.printf "Hi, my name is %s and I am %d years old\n" full_name 5
+let () = Stdio.printf "Hi, my name is %s and I am %d years old\n" full_name 5
 
 (** ========== Inline Tests ========== *)
 (* The lines that follow are inline tests. Each evaluates a boolean expression.
@@ -161,8 +160,7 @@ let () =
    In words: [equal] takes two [int]s and returns a [bool]. The following line
    is applying that function to two inputs, [5] and [int_average 5 5]. *)
 
-let%test "Testing int_average..." =
-  Int.equal (int_average 5 5) 5
+let%test "Testing int_average..." = Int.equal (int_average 5 5) 5
 
 (* Modules can also contain operators. By convention, the equality operator is
    defined and equivalent to the [equal] function. To reference an operator in a
@@ -173,11 +171,6 @@ let%test "Testing int_average..." =
 
    [Int.(=)] is the same as [Int.equal]. *)
 
-let%test "Testing int_average..." =
-  Int.(=) (int_average 50 100) 75
-
-let%test "Testing float_average..." =
-  Float.(=) (float_average 5. 5.) 5.
-
-let%test "Testing float_average..." =
-  Float.equal (float_average 5. 10.) 7.5
+let%test "Testing int_average..." = Int.( = ) (int_average 50 100) 75
+let%test "Testing float_average..." = Float.( = ) (float_average 5. 5.) 5.
+let%test "Testing float_average..." = Float.equal (float_average 5. 10.) 7.5
