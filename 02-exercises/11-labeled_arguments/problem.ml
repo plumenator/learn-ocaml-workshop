@@ -1,11 +1,12 @@
 open! Base
+
 (* The following function has the signature:
 
-   {| val divide : int -> int -> int |} 
+   {| val divide : int -> int -> int |}
 
    Looking at just the signature, it's not obvious which [int] argument is the
-   dividend and which is the divisor.  *)
-let divide dividend divisor  = dividend / divisor
+   dividend and which is the divisor. *)
+let divide dividend divisor = dividend / divisor
 
 (* We can fix this ambiguity using labeled arguments.
 
@@ -21,7 +22,7 @@ let divide ~dividend ~divisor = dividend / divisor
 (* We can then call it using:
 
    {| divide ~dividend:9 ~divisor:3 |} *)
-let () = 
+let () =
   assert ([%compare.equal: int] (divide ~dividend:9 ~divisor:3) 3);
   assert ([%compare.equal: int] (divide ~divisor:3 ~dividend:12) 4)
 
@@ -29,7 +30,7 @@ let () =
 
    We can also pass variables into the labeled argument:
 
-   {| 
+   {|
        let nine = 9 in
        let three = 3 in
        divide ~dividend:nine ~divisor:three
@@ -50,9 +51,6 @@ let () =
    signature. *)
 let modulo ~dividend ~divisor = failwith "For you to implement"
 
-let%test "Testing modulo..." =
-  Int.(=) 2 (modulo ~dividend:17 ~divisor:5)
-
-let%test "Testing modulo..." =
-  Int.(=) 0 (modulo ~dividend:99 ~divisor:9)
-
+(* Tests *)
+let%test "Testing modulo..." = Int.( = ) 2 (modulo ~dividend:17 ~divisor:5)
+let%test "Testing modulo..." = Int.( = ) 0 (modulo ~dividend:99 ~divisor:9)
