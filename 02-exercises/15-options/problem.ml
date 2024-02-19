@@ -8,25 +8,24 @@ open! Base
    In real life you would always use the [option] type provided by the standard
    library. [Base] comes with a convenient [Option] module with many useful
    functions. *)
-type 'a option =
-  | None
-  | Some of 'a
+type 'a option = None | Some of 'a
 
 (* An ['a option] is either [None], meaning absence of data, or [Some x] meaning
    the data exists, and that data is [x], which is of type ['a]. Note that
-   [option] is a parameterized data type, with ['a] as the type parameter. 
+   [option] is a parameterized data type, with ['a] as the type parameter.
 
    Here's an example. *)
 let what_number_am_i_thinking (my_number : int option) =
   match my_number with
-  | None        -> "I'm not thinking of any number!"
-  | Some number -> "My number is: " ^ (Int.to_string number)
+  | None -> "I'm not thinking of any number!"
+  | Some number -> "My number is: " ^ Int.to_string number
 
 let%test _ =
-  String.(=) (what_number_am_i_thinking None) "I'm not thinking of any number!"
+  String.( = )
+    (what_number_am_i_thinking None)
+    "I'm not thinking of any number!"
 
-let%test _ =
-  String.(=) (what_number_am_i_thinking (Some 7)) "My number is: 7"
+let%test _ = String.( = ) (what_number_am_i_thinking (Some 7)) "My number is: 7"
 
 (* Implement the function [safe_divide ~dividend ~divisor], which takes two
    [int]s and returns an [int option]. It should return [None] if [divisor = 0],
@@ -34,20 +33,16 @@ let%test _ =
 let safe_divide ~dividend ~divisor = failwith "For you to implement"
 
 let%test "Testing safe_divide..." =
-  match (safe_divide ~dividend:3 ~divisor:2) with
-  | Some 1 -> true
-  | _      -> false
+  match safe_divide ~dividend:3 ~divisor:2 with Some 1 -> true | _ -> false
 
 let%test "Testing safe_divide..." =
-  match safe_divide ~dividend:3 ~divisor:0 with
-  | None -> true
-  | _    -> false
+  match safe_divide ~dividend:3 ~divisor:0 with None -> true | _ -> false
 
 (* Implement a function [option_concatenate], which takes two [string option]s and
    returns a [string option] that is:
    - [Some x], where x is the concatenation of the two strings, if they both exist
-   - [None] if either of the strings is [None]  *)
-let option_concatenate string1 string2 = failwith "For you to implement" 
+   - [None] if either of the strings is [None] *)
+let option_concatenate string1 string2 = failwith "For you to implement"
 
 let%test "Testing option_concatenate..." =
   match option_concatenate (Some "hello") (Some "world") with
@@ -55,14 +50,10 @@ let%test "Testing option_concatenate..." =
   | _ -> false
 
 let%test "Testing option_concatenate..." =
-  match option_concatenate None (Some "world") with
-  | None -> true
-  | _ -> false
+  match option_concatenate None (Some "world") with None -> true | _ -> false
 
 let%test "Testing option_concatenate..." =
-  match option_concatenate (Some "hello") None with
-  | None -> true
-  | _ -> false
+  match option_concatenate (Some "hello") None with None -> true | _ -> false
 
 (* In addition to labeled arguments, OCaml supports optional arguments when
    defining functions. To denote that an argument is optional in a function
@@ -76,8 +67,8 @@ let%test "Testing option_concatenate..." =
 
    Consider [concatenate], which concatenates two strings with an optional
    separator argument. Make sure to take a look at its signature. *)
-let concatenate ?separator string1 string2 = 
-  match separator with 
+let concatenate ?separator string1 string2 =
+  match separator with
   | Some x -> string1 ^ x ^ string2
   | None -> string1 ^ string2
 
@@ -86,28 +77,22 @@ let concatenate ?separator string1 string2 =
    optional argument [separator] a default value of [""]. This way, we don't
    have to explicitly handle the case where the optional argument is omitted by
    ourselves. *)
-let concatenate_with_default_separator ?(separator = "") string1 string2 = 
+let concatenate_with_default_separator ?(separator = "") string1 string2 =
   string1 ^ separator ^ string2
 
 (* Do these assertions make sense? *)
-let () = 
+let () =
   let string1 = "hello" in
   let string2 = "world" in
+  assert ([%compare.equal: string] "helloworld" (concatenate string1 string2));
   assert (
-    [%compare.equal: string] 
-      "helloworld"
-      (concatenate string1 string2));
-  assert (
-    [%compare.equal: string] 
-      "helloworld"
+    [%compare.equal: string] "helloworld"
       (concatenate_with_default_separator string1 string2));
   assert (
-    [%compare.equal: string] 
-      "hello, world" 
+    [%compare.equal: string] "hello, world"
       (concatenate ~separator:", " string1 string2));
   assert (
-    [%compare.equal: string] 
-      "hello, world" 
+    [%compare.equal: string] "hello, world"
       (concatenate_with_default_separator ~separator:", " string1 string2))
 
 (* An aside on optional argument "erasure":
@@ -115,7 +100,7 @@ let () =
    Consider [labeled_concatenate], which behaves exactly like
    [concatenate_with_default_separator], except that the string arguments to be
    concatenated are lableled. *)
-let labeled_concatenate ?(separator = "")  ~string1 ~string2 =
+let labeled_concatenate ?(separator = "") ~string1 ~string2 =
   string1 ^ separator ^ string2
 
 (* Try uncommenting this code. What is the compile error? *)
@@ -133,14 +118,15 @@ let labeled_concatenate ?(separator = "")  ~string1 ~string2 =
    [labeled_concatenate] above. Try this and verify that the code compiles and
    runs successfully. *)
 
-(*  We could also define our [labeled_concatenate] function with an additional
+(* We could also define our [labeled_concatenate] function with an additional
    [unit] argument at the end to allow us to erase the optional argument.
 
    Take a second to make sure this makes sense. Try writing a function signature
    for [better_labeled_concatenate] in the mli, and make sure that this code
    still compiles. *)
-let better_labeled_concatenate ?(separator = "") ~string1 ~string2 () = 
+let better_labeled_concatenate ?(separator = "") ~string1 ~string2 () =
   string1 ^ separator ^ string2
 
-let () = 
-  assert (String.(=) "hi" (better_labeled_concatenate ~string1:"h" ~string2:"i" ()))
+let () =
+  assert (
+    String.( = ) "hi" (better_labeled_concatenate ~string1:"h" ~string2:"i" ()))
