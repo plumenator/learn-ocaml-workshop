@@ -2,7 +2,7 @@ open! Base
 
 (* Remember the list functions we wrote in exercises 8-10? Many of those
    functions that we've been writing by hand are actually available in the
-   language in a nice, first class way in the [List] module. 
+   language in a nice, first class way in the [List] module.
 
    Let's take look at some of the useful functions that are given to you. *)
 
@@ -14,7 +14,7 @@ open! Base
    Maybe this looks familiar?  This is almost the same as the [every] function
    we wrote in exercise 11.
 
-   Let's rewrite [simpler_sum] and [simpler_product] using List.fold *) 
+   Let's rewrite [simpler_sum] and [simpler_product] using List.fold *)
 
 let simpler_sum xs = failwith "For you to implement"
 let simpler_product xs = failwith "For you to implement"
@@ -29,7 +29,7 @@ let simpler_product xs = failwith "For you to implement"
 
    Let's write a function that takes in an int list and transforms it into a
    float list. (Hint: you can cast an int to a float using [Float.of_int].) *)
-                       
+
 let float_of_int xs = failwith "For you to implement"
 
 (** ========== [List.init] ========== **)
@@ -41,27 +41,27 @@ let float_of_int xs = failwith "For you to implement"
    number of elements to generate and a function to construct a new element, it
    returns a new list
 
-   Let's rewrite the [range] function we wrote in problem 9 to use [init].  *)
+   Let's rewrite the [range] function we wrote in problem 9 to use [init]. *)
 
 let range from to_ = failwith "For you to implement"
 
 (** ========== [List.range] ========== **)
-(* Turns out this special case of [List.init] is useful enough that it has it's own 
+(* Turns out this special case of [List.init] is useful enough that it has it's own
    function:
 
    {|
-       val range : 
+       val range :
            ?stride:int
            -> ?start:[ `exclusive | `inclusive ]
            -> ?stop:[ `exclusive | `inclusive ]
-           -> int 
-           -> int 
+           -> int
+           -> int
            -> int list
-   |} 
+   |}
 
-   The arguments that are preceded with a question mark (i.e. [stride], [start], 
-   and [stop]) are called "optional arguments", and are arguments that don't have to 
-   be passed when invoking the function. We'll learn about optional arguments in more 
+   The arguments that are preceded with a question mark (i.e. [stride], [start],
+   and [stop]) are called "optional arguments", and are arguments that don't have to
+   be passed when invoking the function. We'll learn about optional arguments in more
    detail in exercise 15.*)
 
 (** ========== [List.iter] ========== **)
@@ -114,17 +114,22 @@ let print_int_list xs = failwith "For you to implement"
 
 let%test "Testing simpler_product..." = Int.( = ) 1 (simpler_product [])
 let%test "Testing simpler_product..." = Int.( = ) 55 (simpler_product [ 55 ])
-let%test "Testing simpler_product..." = Int.( = ) 25 (simpler_product [ 5; -5; 1; -1 ])
-let%test "Testing simpler_product..." = Int.( = ) 25 (simpler_product [ 5; 5; 1; 1 ])
+
+let%test "Testing simpler_product..." =
+  Int.( = ) 25 (simpler_product [ 5; -5; 1; -1 ])
+
+let%test "Testing simpler_product..." =
+  Int.( = ) 25 (simpler_product [ 5; 5; 1; 1 ])
+
 let%test "Testing simpler_sum..." = Int.( = ) 0 (simpler_sum [])
 let%test "Testing simpler_sum..." = Int.( = ) 55 (simpler_sum [ 55 ])
 let%test "Testing simpler_sum..." = Int.( = ) 0 (simpler_sum [ 5; -5; 1; -1 ])
 let%test "Testing simpler_sum..." = Int.( = ) 12 (simpler_sum [ 5; 5; 1; 1 ])
 
-let%test "Testing float_of_int..." = [%compare.equal: float list] (float_of_int [1; 2; 3]) [ 1.0; 2.0; 3.0 ]
+let%test "Testing float_of_int..." =
+  [%compare.equal: float list] (float_of_int [ 1; 2; 3 ]) [ 1.0; 2.0; 3.0 ]
 
 let%test "Testing range..." = [%compare.equal: int list] (range 1 4) [ 1; 2; 3 ]
 
 let%test "Testing range..." =
   [%compare.equal: int list] (range (-5) 3) [ -5; -4; -3; -2; -1; 0; 1; 2 ]
-;;
