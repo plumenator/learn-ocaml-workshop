@@ -6,7 +6,7 @@ open! Base
    In OCaml, we can use the [mutable] keyword to indicate that a particular
    field in a record can be modified in place. Then we can use [<-] to set the
    record value to a new value. *)
-type color = Red | Yellow | Green
+type color = Red | Yellow | Green [@@deriving compare]
 
 (* An aside: Note that for the [stoplight] type definition is followed by
    [@@deriving compare]. This is a ppx (remember the [%compare.equal] ppx from
@@ -44,7 +44,11 @@ let set_color stoplight color = stoplight.color <- color
    [Yellow], [Yellow] to [Red], and [Red] to [Green]. Since we know this is the
    only transition, we can just write a function to advance the color of the
    light without taking an input color. *)
-let advance_color stoplight = failwith "For you to implement"
+let advance_color stoplight =
+  let next =
+    match stoplight.color with Green -> Yellow | Yellow -> Red | Red -> Green
+  in
+  stoplight.color <- next
 
 module For_testing = struct
   let test_ex_red : stoplight = { location = ""; color = Red }
