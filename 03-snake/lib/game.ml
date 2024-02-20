@@ -47,7 +47,7 @@ let game_state t = t.game_state
 (* Implement [set_direction]. *)
 let set_direction t direction = t.snake <- Snake.set_direction t.snake direction
 
-(* TODO: Implement [step].
+(* Implement [step].
 
    [step] should:
    - move the snake forward one square

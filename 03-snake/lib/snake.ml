@@ -59,4 +59,11 @@ let step t =
       ~f:(fun x -> [%compare.equal: Position.t] next_head x)
       t.locations
   then None
+  else if t.extensions_remaining > 0 then
+    Some
+      {
+        t with
+        locations = next_head :: t.locations;
+        extensions_remaining = t.extensions_remaining - 1;
+      }
   else Some { t with locations = next_head :: List.drop_last_exn t.locations }
