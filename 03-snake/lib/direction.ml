@@ -1,12 +1,7 @@
 open! Base
 open! Position
 
-type t =
-  | Left
-  | Up
-  | Right
-  | Down
-[@@deriving sexp_of]
+type t = Left | Up | Right | Down [@@deriving sexp_of]
 
 (* Implement [next_position].
 
@@ -15,6 +10,6 @@ type t =
 let next_position t position =
   match t with
   | Left -> { position with col = position.col - 1 }
-  | Up -> { position with row = position.row - 1 }
+  | Up -> { position with row = position.row + 1 }
   | Right -> { position with col = position.col + 1 }
-  | Down -> { position with row = position.row + 1 }
+  | Down -> { position with row = position.row - 1 }
