@@ -12,7 +12,7 @@ type t =
   }
 [@@deriving sexp_of]
 
-(* TODO: Implement [create].
+(* Implement [create].
 
    Note that at the beginning of the game, the snake will not need to grow at all, so
    [extensions_remaining] should be initialized to 0. *)
@@ -23,7 +23,7 @@ let create ~length =
   }
 ;;
 
-(* TODO: Implement [grow_over_next_steps].
+(* Implement [grow_over_next_steps].
 
    Read over the documentation of this function in the mli.
 
@@ -33,16 +33,16 @@ let grow_over_next_steps t by_how_much =
   { t with extensions_remaining = t.extensions_remaining + by_how_much }
 ;;
 
-(* TODO: Implement [locations]. *)
+(* Implement [locations]. *)
 let locations t = t.locations
 
-(* TODO: Implement [head_location]. *)
+(* Implement [head_location]. *)
 let head_location t = List.hd_exn t.locations
 
-(* TODO: Implement [set_direction]. *)
+(* Implement [set_direction]. *)
 let set_direction t direction = { t with direction }
 
-(* TODO: Implement [step].
+(* Implement [step].
 
    Read over the documentation of this function in the mli.
 

@@ -32,7 +32,7 @@ let new_moving_piece t =
 ;;
 
 let can_move t ~row ~col =
-  (* TODO: Check if moving the [moving_piece] so that the bottom left
+  (* Check if moving the [moving_piece] so that the bottom left
      corner is at [row] [col] will cause the board to be invalid
      either because the piece will collide with a filled-in square on
      the board or because it runs off the board *)
@@ -41,9 +41,9 @@ let can_move t ~row ~col =
   else (
     let coords = Moving_piece.coords ~bottom_left:{ Point.row; col } in
     List.fold coords ~init:true ~f:(fun can_move point ->
-        if point.Point.row >= t.height
-        then can_move
-        else Board.is_empty t.board point && can_move))
+      if point.Point.row >= t.height
+      then can_move
+      else Board.is_empty t.board point && can_move))
 ;;
 
 let move t ~col =
@@ -56,11 +56,11 @@ let rotate_right t = t.moving_piece <- Moving_piece.rotate_right t.moving_piece
 let rotate_left t = t.moving_piece <- Moving_piece.rotate_left t.moving_piece
 
 let drop t =
-  (* TODO: drop the active piece all the way to the bottom and add it to the
+  (* drop the active piece all the way to the bottom and add it to the
      board. Make sure to generate a new moving piece.
 
      Note: Depending on your implementation, you might need to check if the game
-     is over here.  *)
+     is over here. *)
   if not
        (Board.add_piece_and_apply_gravity
           t.board
@@ -71,7 +71,7 @@ let drop t =
 ;;
 
 let tick t =
-  (* TODO: handle a single clock tick. The moving piece should try to move down
+  (* handle a single clock tick. The moving piece should try to move down
      one square. If it can't, we should try to add it to the board.
 
      Note: We want to guarantee that the board is in a valid state at the end of
@@ -199,7 +199,7 @@ let%test "Test tick game over..." =
   let t = create ~height:4 ~width:4 ~seconds_per_sweep:4. in
   List.range ~start:`inclusive ~stop:`exclusive 0 9
   |> List.iter ~f:(fun _ ->
-         assert (not !(t.game_over));
-         tick t);
+    assert (not !(t.game_over));
+    tick t);
   !(t.game_over)
 ;;

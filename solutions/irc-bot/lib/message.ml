@@ -6,7 +6,6 @@ module Prefix = struct
       | Hostname of string
       | Inet_addr of Unix.Inet_addr.Blocking_sexp.t
     [@@deriving variants, sexp]
-    ;;
 
     let to_string = function
       | Hostname s -> s
@@ -17,9 +16,9 @@ module Prefix = struct
   module User = struct
     type t =
       { host : Host.t
-      ; user : string option }
+      ; user : string option
+      }
     [@@deriving sexp]
-    ;;
 
     let to_string { host; user } =
       let user =
@@ -27,7 +26,7 @@ module Prefix = struct
         | Some u -> "!" ^ u
         | None -> ""
       in
-      user ^ "@" ^ (Host.to_string host)
+      user ^ "@" ^ Host.to_string host
     ;;
   end
 
@@ -35,16 +34,17 @@ module Prefix = struct
     | Server of string
     | User of
         { nickname : string
-        ; user : User.t option }
+        ; user : User.t option
+        }
   [@@deriving sexp]
-  ;;
 
   let to_string t =
-    ":" ^
-    (match t with
-     | Server s -> s
-     | User { nickname; user = maybe_user } ->
-       match maybe_user with
+    ":"
+    ^
+    match t with
+    | Server s -> s
+    | User { nickname; user = maybe_user } ->
+      (match maybe_user with
        | None -> nickname
        | Some user -> nickname ^ User.to_string user)
   ;;
@@ -53,7 +53,7 @@ end
 module Command = struct
   type t = string [@@deriving sexp]
 
-  (* TODO: Actually validate the commands here. *)
+  (* Actually validate the commands here. *)
   let of_string s = s
 end
 
@@ -77,18 +77,12 @@ type t =
   ; params : Params.t
   }
 [@@deriving sexp, fields]
-;;
 
-let create ?prefix ~command ~params () =
-  Fields.create ~prefix ~command ~params
-;;
+let create ?prefix ~command ~params () = Fields.create ~prefix ~command ~params
 
 let to_string t =
   (match t.prefix with
    | Some prefix -> Prefix.to_string prefix ^ " "
    | None -> "")
-  |> fun prefix ->
-  prefix
-  ^ t.command
-  ^ (Params.to_string t.params)
+  |> fun prefix -> prefix ^ t.command ^ Params.to_string t.params
 ;;
