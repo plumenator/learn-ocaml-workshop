@@ -36,15 +36,13 @@ end
 (* Here's how we use these values. *)
 let one_less_than_the_meaning_of_life_etc =
   Example.subtract_one Example.the_meaning_of_life_the_universe_and_everything
-;;
 
-let () =
-  assert (one_less_than_the_meaning_of_life_etc = 41)
+let () = assert (one_less_than_the_meaning_of_life_etc = 41)
 
 (* Try uncommenting this line of code. What does the compiler tell you? *)
 (* let () = 
- *   assert (Example.a_secret_value = 17)  *)
-    
+ *   assert (Example.a_secret_value = 17) *)
+
 (* Types can be exposed via signatures in OCaml as well. Here's an example of
    declaring an "abstract" type - one where the definition of the type is not
    exposed. *)
@@ -71,7 +69,9 @@ end = struct
 end
 
 (* Here's an example of adding 2 and 2 *)
-let two = Abstract_type_example.add Abstract_type_example.one Abstract_type_example.one
+let two =
+  Abstract_type_example.add Abstract_type_example.one Abstract_type_example.one
+
 let four = Abstract_type_example.to_int (Abstract_type_example.add two two);;
 
 assert (four = 4)
@@ -84,14 +84,15 @@ module Fraction : sig
 end = struct
   type t = int * int
 
-  let create ~numerator ~denominator = numerator, denominator
-  let value (numerator, denominator) = Float.of_int numerator /. Float.of_int denominator
+  let create ~numerator ~denominator = (numerator, denominator)
+
+  let value (numerator, denominator) =
+    Float.of_int numerator /. Float.of_int denominator
 end
 
 let%test "Testing Fraction.value..." =
   Float.( = ) 2.5 (Fraction.value (Fraction.create ~numerator:5 ~denominator:2))
-;;
 
 let%test "Testing Fraction.value..." =
-  Float.( = ) 0.4 (Fraction.value (Fraction.create ~numerator:4 ~denominator:10))
-;;
+  Float.( = ) 0.4
+    (Fraction.value (Fraction.create ~numerator:4 ~denominator:10))
