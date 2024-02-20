@@ -16,7 +16,16 @@ let () = x := !x + 1
    You could do this using [List.fold], but for the purpose of this exercise,
    let's iterate over the list and explicitly maintain refs of the minimum and
    maximum values seen so far instead. *)
-let min_and_max lst = failwith "For you to implement"
+let min_and_max lst =
+  assert (not (List.is_empty lst));
+  let min, max = (ref Int.max_value, ref Int.min_value) in
+  let step x =
+    assert (x > 0);
+    if x < !min then min := x else ();
+    if x > !max then max := x else ()
+  in
+  List.iter lst ~f:step;
+  (!min, !max)
 
 (* By the way, can you guess how a [ref] is implemented under the hood?
 
