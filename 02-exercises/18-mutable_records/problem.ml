@@ -6,10 +6,7 @@ open! Base
    In OCaml, we can use the [mutable] keyword to indicate that a particular
    field in a record can be modified in place. Then we can use [<-] to set the
    record value to a new value. *)
-type color =
-  | Red
-  | Yellow
-  | Green
+type color = Red | Yellow | Green
 
 (* An aside: Note that for the [stoplight] type definition is followed by
    [@@deriving compare]. This is a ppx (remember the [%compare.equal] ppx from
@@ -24,16 +21,18 @@ type color =
    We can fix this compile error by either manually writing a compare function
    for the [color] type, or (much more easily) by adding the [compare] ppx to
    the [color] type as well. *)
-type stoplight =
-  { location : string (* stoplights don't usually move *)
-  ; mutable color : color  (* but they often change color *)
-  }
+type stoplight = {
+  location : string; (* stoplights don't usually move *)
+  mutable color : color; (* but they often change color *)
+}
 [@@deriving compare]
 
 (* On creation, mutable fields are defined just like normal fields. *)
 let an_example : stoplight =
-  { location = "The corner of Vesey Street and the West Side highway"; color = Red }
-;;
+  {
+    location = "The corner of Vesey Street and the West Side highway";
+    color = Red;
+  }
 
 (* Now rather than using a functional update we can use a mutable update. This
    doesn't return a new stoplight, it modifies the input stoplight.
@@ -58,15 +57,12 @@ module For_testing = struct
   let%test "Testing advance_color..." =
     advance_color test_ex_green;
     [%compare.equal: stoplight] test_ex_green' test_ex_green
-  ;;
 
   let%test "Testing advance_color..." =
     advance_color test_ex_yellow;
     [%compare.equal: stoplight] test_ex_yellow' test_ex_yellow
-  ;;
 
   let%test "Testing advance_color..." =
     advance_color test_ex_red;
     [%compare.equal: stoplight] test_ex_red' test_ex_red
-  ;;
 end
