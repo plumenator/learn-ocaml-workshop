@@ -162,8 +162,8 @@
   can try to implement!
 
   Some exmaples, for inspiration:
-  - caluculate and display a score
-  - make the snake change color 
-  - make apples "time out" and disappear
-  - make special apples that have a different effect on the length of
+  - TODO: caluculate and display a score
+  - TODO: make the snake change color
+  - TODO: make apples "time out" and disappear
+  - TODO: make special apples that have a different effect on the length of
     the snake
